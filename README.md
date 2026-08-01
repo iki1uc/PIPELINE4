@@ -1,28 +1,29 @@
-# ANKER – Stabilisationsachse · iki1uc
+# PIPELINE4 · Vier-Ebenen-Pipeline
 
-## Zweck
-ANKER ist die Stabilisationsachse des iki1uc‑Systems.
-Es hält die Achsen IQ, QI, EVO, UPD, UPG, BIOS und CALC im korrekten Verhältnis.
+Zweck:
+Die PIPELINE4 bildet die vier Ebenen eines vollständigen IO/OI-Durchlaufs ab:
+SCAN → OCR → NET/NC → OUTPUT.
 
-## Struktur
-- NAME: ANKER
-- ID: A01
-- Station: S01
-- Dimension: D4
-- Modus: erabel (neutral, operation möglich)
+Axiome:
+- K(t) = 1 / (1 - t)
+- Φ(t) = φ∞ · K(t)
+- DualTransport: io = +Δx·K(t), oi = -Δx·K(t)
+- TRANS-WARB: Sprung 3 → CUBIT → Sprung 4 → OI
 
-## Rolle
-ANKER stabilisiert, ohne selbst aktiv zu berechnen oder zu steuern.
-Es ist die neutrale Achse zwischen AXI, 6d und API.
+Struktur:
+Ebene 1: SCAN (Kamera)
+Ebene 2: OCR (Lesen)
+Ebene 3: NET/NC (Verbindung)
+Ebene 4: OUTPUT (OI)
 
-## Bindungen
-- AXI
-- 6d
-- 360
-- 100
-- 213 (REAL)
-- API
+Kompatibilität:
+- IO / OI
+- TRANS-WARB
+- WARB KANAL
+- Highway
+- Slalom
+- Axiom-Dreieck-6
+- Modul-IO-8
 
-## Status
-STATE = STABIL  
-READY = 100%
+Status:
+Aktiv
