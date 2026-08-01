@@ -1,29 +1,43 @@
 # PIPELINE4 · Vier-Ebenen-Pipeline
 
-Zweck:
-Die PIPELINE4 bildet die vier Ebenen eines vollständigen IO/OI-Durchlaufs ab:
-SCAN → OCR → NET/NC → OUTPUT.
+PIPELINE4 ist die vierte Achse des Systems.
+Sie bildet den vollständigen Durchlauf von Eingang bis Ausgang.
 
-Axiome:
-- K(t) = 1 / (1 - t)
-- Φ(t) = φ∞ · K(t)
-- DualTransport: io = +Δx·K(t), oi = -Δx·K(t)
-- TRANS-WARB: Sprung 3 → CUBIT → Sprung 4 → OI
+## Struktur
+PIPELINE4 nutzt vier Ebenen:
 
-Struktur:
-Ebene 1: SCAN (Kamera)
-Ebene 2: OCR (Lesen)
-Ebene 3: NET/NC (Verbindung)
-Ebene 4: OUTPUT (OI)
+1. **Input-Vektor**  
+   - IX aus 3.csv
 
-Kompatibilität:
-- IO / OI
-- TRANS-WARB
-- WARB KANAL
-- Highway
-- Slalom
-- Axiom-Dreieck-6
-- Modul-IO-8
+2. **Funktionsachse**  
+   - IO aus 6.csv
 
-Status:
-Aktiv
+3. **Normmodul**  
+   - FIT, FIX, MISS, RDY, ERROR, HELP aus 9.csv
+
+4. **Output-Achse**  
+   - OI aus 6.csv
+
+## Zweck
+PIPELINE4 erzeugt den vollständigen Durchlauf:
+Input → Funktion → Norm → Output.
+
+## Module
+- [IX](ca://s?q=VEC_IX)
+- [IO](ca://s?q=AX_IO)
+- [OI](ca://s?q=AX_OI)
+- [FIT](ca://s?q=NM_FIT)
+- [FIX](ca://s?q=NM_FIX)
+- [MISS](ca://s?q=NM_MISS)
+- [RDY](ca://s?q=NM_RDY)
+- [ERROR](ca://s?q=NM_ERROR)
+- [HELP](ca://s?q=NM_HELP)
+
+## Matrix
+PIPELINE4 nutzt die 3-6-9-Matrix:
+- 3 = Grundvektoren
+- 6 = Funktionsachsen
+- 9 = Normmodule
+
+## Status
+Aktiv, Output-fähig, NC-gestützt.
