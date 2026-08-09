@@ -2,91 +2,81 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>PIPELINE4 · Vier‑Ebenen‑Pipeline</title>
+<title>PIPELINE4 · iki1uc</title>
 
 <style>
-  body { background:#000; color:#0f0; font-family:monospace; padding:40px; }
-  h1 { color:#6cf; text-align:center; margin-bottom:30px; }
-  .box { background:#111; border:1px solid #333; padding:20px; margin-bottom:25px; }
-  .title { color:#6cf; font-size:18px; margin-bottom:10px; }
-  pre { background:#000; padding:10px; border-left:3px solid #6cf; white-space:pre-wrap; }
-  ul { list-style:none; padding:0; }
-  li { margin:8px 0; }
-  a { color:#6cf; text-decoration:none; }
+    body {
+        background:#000;
+        color:#0f0;
+        font-family:Consolas, monospace;
+        padding:20px;
+    }
+    h1 { color:#6cf; }
+    pre {
+        background:#111;
+        padding:12px;
+        border:1px solid #333;
+        border-radius:6px;
+        color:#0f0;
+    }
+    .block { margin-bottom:20px; }
 </style>
+
+<script type="module">
+
+// =========================
+// CSV Loader
+// =========================
+
+async function loadCSV(name){
+    const res = await fetch(name);
+    const text = await res.text();
+    return text.split("\n").map(r => r.split(","));
+}
+
+// =========================
+// PIPELINE4 Start
+// =========================
+
+async function PIPELINE4_START(){
+
+    // Pipeline‑Daten
+    const p3 = await loadCSV("3.csv");
+    const p6 = await loadCSV("6.csv");
+    const p9 = await loadCSV("9.csv");
+
+    // ID‑Modul
+    const id = await fetch("id.html").then(r => r.text());
+
+    return {
+        pipeline: {
+            p3,
+            p6,
+            p9
+        },
+        id
+    };
+}
+
+// =========================
+// UI
+// =========================
+
+window.onload = async () => {
+    const out = await PIPELINE4_START();
+    document.getElementById("out").textContent =
+        JSON.stringify(out, null, 2);
+};
+</script>
+
 </head>
 
 <body>
 
-<h1>PIPELINE4 · Vier‑Ebenen‑Pipeline</h1>
+<h1>PIPELINE4 · iki1uc</h1>
 
-<!-- Navigation -->
-<div class="box">
-  <div class="title">Navigation</div>
-  <ul>
-    <li><a href="README.md">README</a></li>
-    <li><a href="id.html">ID</a></li>
-
-    <!-- Matrix -->
-    <li><a href="3.csv">3 · Grundvektoren</a></li>
-    <li><a href="6.csv">6 · Funktionsachsen</a></li>
-    <li><a href="9.csv">9 · Normmodule</a></li>
-  </ul>
-</div>
-
-<!-- Vier-Ebenen-Pipeline -->
-<div class="box">
-  <div class="title">Vier‑Ebenen‑Pipeline</div>
-  <pre>
-EBENE1: Input-Vektor (IX)
-EBENE2: Funktionsachse (IO)
-EBENE3: Normmodul (FIT/FIX/MISS/RDY/ERROR/HELP)
-EBENE4: Output-Achse (OI)
-  </pre>
-</div>
-
-<!-- Vektor Module -->
-<div class="box">
-  <div class="title">Vektor Module (aus CSV)</div>
-  <pre>
-[ IO, Eingang, +Δx, aktiv ]
-[ X4, Multi, 4, stabil ]
-[ AIR, Aufstieg, +Φ, hoch ]
-  </pre>
-</div>
-
-<!-- Matrix 3 / 6 / 9 -->
-<div class="box">
-  <div class="title">Matrix 3 · 6 · 9</div>
-  <pre>
-3 = Grundvektoren (IX, XI, X4)
-6 = Funktionsachsen (IO, OI, AIR, AIV, ALLIN, ALLOUT)
-9 = Normmodule (FIT, FIX, MISS, RDY, ERROR, HELP)
-  </pre>
-</div>
-
-<!-- Pipeline Übersicht -->
-<div class="box">
-  <div class="title">Pipeline Übersicht</div>
-  <pre>
-PIPELINE1 = Quelle · Zahl · Vektor
-PIPELINE2 = Fusion
-PIPELINE3 = NET / NC
-PIPELINE4 = Output / OI
-PIPELINE9 = Normmodul (FIT/FIX/MISS/RDY/ERROR/HELP)
-  </pre>
-</div>
-
-<!-- Status -->
-<div class="box">
-  <div class="title">Status</div>
-  <pre>
-System: aktiv
-Matrix: geladen
-Vektoren: bereit
-NC: online
-PIPELINE4: Output-fähig
-  </pre>
+<div class="block">
+    <pre id="out">Lade PIPELINE4…</pre>
 </div>
 
 </body>
