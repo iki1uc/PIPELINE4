@@ -2,82 +2,84 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>PIPELINE4 · iki1uc</title>
+<title>PIPELINE4 · RAW → STRUCTURE → VECTOR → FUSION · REAL</title>
 
 <style>
-    body {
-        background:#000;
-        color:#0f0;
-        font-family:Consolas, monospace;
-        padding:20px;
-    }
-    h1 { color:#6cf; }
-    pre {
-        background:#111;
-        padding:12px;
-        border:1px solid #333;
-        border-radius:6px;
-        color:#0f0;
-    }
-    .block { margin-bottom:20px; }
+body{background:#000;color:#0f0;font-family:Consolas, monospace;padding:20px;}
+h1{color:#6cf;}
+h2{color:#0f0;}
+pre{background:#111;padding:12px;border:1px solid #333;border-radius:6px;color:#0f0;}
+button{background:#111;color:#0f0;border:1px solid #0f0;padding:10px 20px;margin:5px;}
+section{margin-bottom:20px;}
 </style>
 
 <script type="module">
 
-// =========================
-// CSV Loader
-// =========================
+import { QI } from "./QI.js";
+import { coreScan } from "./coreScan.js";
 
-async function loadCSV(name){
-    const res = await fetch(name);
-    const text = await res.text();
-    return text.split("\n").map(r => r.split(","));
-}
+import { P0 } from "./P0.js";
+import { P1 } from "./P1.js";
+import { P2 } from "./P2.js";
+import { P4 } from "./P4.js";
 
-// =========================
-// PIPELINE4 Start
-// =========================
+window.out = msg => document.getElementById("out").innerText = msg;
 
-async function PIPELINE4_START(){
-
-    // Pipeline‑Daten
-    const p3 = await loadCSV("3.csv");
-    const p6 = await loadCSV("6.csv");
-    const p9 = await loadCSV("9.csv");
-
-    // ID‑Modul
-    const id = await fetch("id.html").then(r => r.text());
-
-    return {
-        pipeline: {
-            p3,
-            p6,
-            p9
-        },
-        id
-    };
-}
-
-// =========================
-// UI
-// =========================
-
-window.onload = async () => {
-    const out = await PIPELINE4_START();
-    document.getElementById("out").textContent =
-        JSON.stringify(out, null, 2);
+// QI
+window.qi_p4 = function(){
+    const core = coreScan();
+    out("QI · PIPELINE4\n" + JSON.stringify(QI.scan(P4.run(core)), null, 2));
 };
+
+window.qi_master = function(){
+    out("QI · MASTER\n" + JSON.stringify(QI.scan(coreScan()), null, 2));
+};
+
+window.qi_respo = function(){
+    const core = coreScan();
+    out("QI · RESPO\n" + JSON.stringify(QI.scan(core.respo360), null, 2));
+};
+
+// PIPELINE4
+window.p4_raw = function(){
+    out("P4 · RAW\n" + JSON.stringify(P0.run(coreScan()), null, 2));
+};
+
+window.p4_structure = function(){
+    out("P4 · STRUCTURE\n" + JSON.stringify(P1.run(coreScan()), null, 2));
+};
+
+window.p4_vector = function(){
+    out("P4 · VECTOR\n" + JSON.stringify(P2.run(coreScan()), null, 2));
+};
+
+window.p4_fusion = function(){
+    out("P4 · FUSION\n" + JSON.stringify(P4.run(coreScan()), null, 2));
+};
+
 </script>
 
 </head>
 
 <body>
 
-<h1>PIPELINE4 · iki1uc</h1>
+<h1>PIPELINE4 · RAW → STRUCTURE → VECTOR → FUSION</h1>
 
-<div class="block">
-    <pre id="out">Lade PIPELINE4…</pre>
-</div>
+<section>
+<h2>QI / IQQ</h2>
+<button onclick="qi_p4()">QI · PIPELINE4</button>
+<button onclick="qi_master()">QI · MASTER</button>
+<button onclick="qi_respo()">QI · RESPO</button>
+<pre id="out">Bereit…</pre>
+</section>
+
+<section>
+<h2>PIPELINE4 · Schalter</h2>
+<button onclick="p4_raw()">P4 · RAW</button>
+<button onclick="p4_structure()">P4 · STRUCTURE</button>
+<button onclick="p4_vector()">P4 · VECTOR</button>
+<button onclick="p4_fusion()">P4 · FUSION</button>
+</section>
 
 </body>
 </html>
